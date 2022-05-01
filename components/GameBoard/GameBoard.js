@@ -10,6 +10,7 @@ export default function GameBoard() {
    const [gameBoard, setGameBoard] = useState([]);
    const [gameOver, setGameOver] = useState(false);
    const [message, setMessage] = useState("");
+   const [inGame, setInGame] = useState(false);
 
 
    const initBoard = () => {
@@ -24,6 +25,7 @@ export default function GameBoard() {
       setCurrentPlayer(player1);
       setMessage('');
       setGameOver(false);
+      setInGame(true);
    }
 
    const togglePlayer = () => {
@@ -47,20 +49,24 @@ export default function GameBoard() {
             setGameBoard(board);
             setGameOver(true);
             setMessage('Player 1 (red) wins!');
+            setInGame(false);
          } else if (result === player2) {
             setGameBoard(board);
             setGameOver(true);
             setMessage('Player 2 (yellow) wins!');
+            setInGame(false);
          } else if (result === 'draw') {
             setGameBoard(board);
             setGameOver(true);
             setMessage('Draw game.');
+            setInGame(false);
          } else {
             setGameBoard(board);
             setCurrentPlayer(togglePlayer);
          }
       } else {
          setMessage('Game over. Please start a new game.');
+         setInGame(false);
       }
    }
 
@@ -145,10 +151,15 @@ export default function GameBoard() {
 
    return (
       <View style={styles.mainContainer}>
-         <Button onPress={initBoard}
-            title="New Game"
-            color="#841584"
-         />
+
+{!inGame &&
+         <TouchableOpacity onPress={initBoard}
+            style={styles.appButtonContainer}
+         ><Text>
+               New Game
+            </Text>
+         </TouchableOpacity>
+}
 
          {gameBoard.length > 0 &&
             <View style={styles.container}>
@@ -192,10 +203,11 @@ const Cell = ({ value, columnIndex, play }) => {
 
 const styles = StyleSheet.create({
    mainContainer: {
-      marginTop: 40,
+      paddingTop: 50,
+      paddingBottom: 40,
+      backgroundColor: '#00000090',
    },
    container: {
-       flex: 1,
       backgroundColor: '#32527B',
       padding: 10,
    },
@@ -204,12 +216,28 @@ const styles = StyleSheet.create({
       flexWrap: "wrap",
    },
    cell: {
-      height: 50,
-      width: 50,
+      height: '14.2%',
+      width: '14%',
       padding: 2
    },
    message: {
       textAlign: 'center',
-      fontSize: 17
-   }
+      fontSize: 17,
+      color: 'white',
+      marginTop: 10
+   },
+   appButtonContainer: {
+      elevation: 8,
+      color: 'white',
+      backgroundColor: "#FFA500",
+      borderStyle: 'solid',
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '50%',
+      marginLeft: '25%',
+      marginBottom: 10
+   },
 });

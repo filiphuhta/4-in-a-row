@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import GameBoard from './components/GameBoard/GameBoard';
 
 export default function App() {
+  const image = './assets/main-background.jpg';
   return (
     <View style={styles.container}>
-      <GameBoard></GameBoard>
+      <ImageBackground source={require(image)} resizeMode="cover" style={styles.image}>
+
+        <GameBoard></GameBoard>
+      </ImageBackground>
     </View>
   );
 }
@@ -17,4 +21,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  image: {
+    flex: 1,
+    justifyContent: "center",
+    width: "100%",
+  }
 });
